@@ -221,7 +221,7 @@ services:
     image: redis:3.0
     container_name: tahoe.devstack.redis
     ports:
-      - ${REDIS_PORT}:6379
+      - ${TAHOE_REDIS_PORT}:6379
     volumes:
       - redis_data:/data
 
