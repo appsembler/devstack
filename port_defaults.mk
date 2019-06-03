@@ -4,7 +4,7 @@
 # this is useful to avoid port conflicts if you already
 # have services running locally
 
-POSTGRES_PORT ?= 5432
+TAHOE_POSTGRES_PORT ?= 5432
 REDIS_PORT ?= 6379
 
 export POSTGRES_PORT
