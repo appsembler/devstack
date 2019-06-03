@@ -5,7 +5,7 @@
 # have services running locally
 
 TAHOE_POSTGRES_PORT ?= 5432
-REDIS_PORT ?= 6379
+TAHOE_REDIS_PORT ?= 6379
 
-export POSTGRES_PORT
-export REDIS_PORT
+export TAHOE_POSTGRES_PORT
+export TAHOE_REDIS_PORT
