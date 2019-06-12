@@ -11,11 +11,18 @@ tahoe.exec.edxapp:   ## Execute a command in both LMS and Studio (edxapp contain
 tahoe.chown:  ## Fix annoying docker permission issues
 	sudo chown -R $(USER) $(DEVSTACK_WORKSPACE)
 
+tahoe.theme.hack:  ## Link the customer theme in a pretty hacky way, sorry I don't know a better way
+	sudo rm -f $(DEVSTACK_WORKSPACE)/edx-theme-codebase  ## Not sure if this is needed
+
+	## Mac OSX might compalin about the `-d`, we can remove it temp.
+	sudo ln -s -d /edx/var/edxapp/themes/edx-theme-customers $(DEVSTACK_WORKSPACE)/edx-theme-codebase/customer_specific
+
 tahoe.provision:  ## Make the devstack more Tahoe'ish
 	make tahoe.chown
 	cat $(DEVSTACK_WORKSPACE)/devstack/provision-tahoe.py > $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
 	make COMMAND='python /edx/src/provision-tahoe.py' tahoe.exec.edxapp
 	rm $(DEVSTACK_WORKSPACE)/src/provision-tahoe.py
+	make tahoe.theme.hack
 	make tahoe.restart || true
 
 tahoe.up:  ## Run the devstack with proper Tahoe settings, use instead of `$ make dev.up`
