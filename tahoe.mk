@@ -1,5 +1,13 @@
 DEVSTACK_WORKSPACE ?= ..
 
+# Handle Mac difference in `$ ln` shell command.
+ifeq ($(shell uname -s),Darwin)
+	LINK_DIRECTORY := ln -s
+else
+	LINK_DIRECTORY := ln -sd
+endif
+
+
 tahoe.exec.single:  ## Execute a command inside a devstack docker container
 	docker exec -t edx.devstack.$(SERVICE)  \
 		bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform/ && $(COMMAND)'
@@ -12,10 +20,9 @@ tahoe.chown:  ## Fix annoying docker permission issues
 	sudo chown -R $(USER) $(DEVSTACK_WORKSPACE)
 
 tahoe.theme.hack:  ## Link the customer theme in a pretty hacky way, sorry I don't know a better way
-	sudo rm -f $(DEVSTACK_WORKSPACE)/edx-theme-codebase  ## Not sure if this is needed
-
+	sudo rm -rf $(DEVSTACK_WORKSPACE)/edx-theme-codebase/customer_specific  ## Not sure if this is needed
 	## Mac OSX might compalin about the `-d`, we can remove it temp.
-	sudo ln -s -d /edx/var/edxapp/themes/edx-theme-customers $(DEVSTACK_WORKSPACE)/edx-theme-codebase/customer_specific
+	sudo $(LINK_DIRECTORY) /edx/var/edxapp/themes/edx-theme-customers $(DEVSTACK_WORKSPACE)/edx-theme-codebase/customer_specific
 
 tahoe.provision:  ## Make the devstack more Tahoe'ish
 	make tahoe.chown

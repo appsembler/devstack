@@ -97,7 +97,7 @@ _clone ()
                 git clone -b ${AMC_BRANCH} -c core.symlinks=true ${repo}
             elif [ "$name" == "edx-theme-codebase" ]; then
                 git clone -b ${THEME_CODEBASE_BRANCH} -c core.symlinks=true ${repo}
-                make tahoe.theme.hack
+                bash -c "cd '${DEVSTACK_WORKSPACE}' && make tahoe.theme.hack"
             elif [ "$name" == "edx-theme-customers" ]; then
                 git clone -b ${THEME_CUSTOMERS_BRANCH} -c core.symlinks=true ${repo}
             else
@@ -135,7 +135,7 @@ _appsembler_checkout_and_update_branch ()
         OPENEDX_GIT_BRANCH="${AMC_BRANCH}" _checkout_and_update_branch
     elif [ "${repo}" == "edx-theme-codebase" ]; then
         OPENEDX_GIT_BRANCH="${THEME_CODEBASE_BRANCH}" _checkout_and_update_branch
-        make tahoe.theme.hack
+        bash -c "cd '${DEVSTACK_WORKSPACE}' && make tahoe.theme.hack"
     elif [ "${repo}" == "edx-theme-customers" ]; then
         OPENEDX_GIT_BRANCH="${THEME_CUSTOMERS_BRANCH}" _checkout_and_update_branch
     else
