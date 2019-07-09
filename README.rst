@@ -56,6 +56,10 @@ Superuser passwords are:
 - **AMC:** ``amc`` with email ``amc@example.com`` and password ``amc``.
 - **Studio and LMS superuser:** ``edx`` with email ``edx@example.com`` and password ``edx``.
 
+
+    You'll also have a normal user in ``edx`` for ``amc`` with email ``amc@example.com`` and password ``amc``
+
+
 But, But, But Where's My Site?
 ------------------------------
 
