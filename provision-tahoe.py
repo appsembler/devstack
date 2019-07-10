@@ -32,7 +32,7 @@ def move_environment_files_to_host():
         if not src_path.exists():
             if container_path.islink():
                 raise Exception(
-                    'Unable to correctly move the environmet files, please shut down the '
+                    'Unable to correctly move the environment files, please shut down the '
                     'container `$ make down` and try again with `$ make tahoe.up`'
                 )
 
