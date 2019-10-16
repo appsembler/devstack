@@ -41,12 +41,6 @@ services:
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:${DEVSTACK_CACHE:-cached}
-  amc:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/amc:/opt/amc:${DEVSTACK_CACHE:-cached}
-  amc-frontend:
-    volumes:
-      - ${DEVSTACK_WORKSPACE}/amc:/opt/amc:${DEVSTACK_CACHE:-cached}
 
 volumes:
   credentials_node_modules:
