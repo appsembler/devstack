@@ -31,7 +31,6 @@ repos=(
     "https://github.com/edx/ecommerce.git"
     "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/edx/edx-notes-api.git"
-    "git@github.com:appsembler/amc.git"
     "git@github.com:appsembler/edx-theme-codebase.git"
     "git@github.com:appsembler/edx-theme-customers.git"
     "git@github.com:appsembler/edx-platform.git"
