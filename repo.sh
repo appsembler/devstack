@@ -21,7 +21,6 @@ OPENEDX_GIT_BRANCH=open-release/hawthorn.master
 
 APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/hawthorn/master"
 THEME_CODEBASE_BRANCH="hawthorn/master"
-THEME_CUSTOMERS_BRANCH="hawthorn/tahoe"
 
 repos=(
     "https://github.com/edx/course-discovery.git"
@@ -31,7 +30,6 @@ repos=(
     "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/edx/edx-notes-api.git"
     "git@github.com:appsembler/edx-theme-codebase.git"
-    "git@github.com:appsembler/edx-theme-customers.git"
     "git@github.com:appsembler/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
@@ -48,25 +46,25 @@ _checkout ()
 {
     repos_to_checkout=("$@")
 
+    if [ -z "$OPENEDX_RELEASE" ]; then
+        branch="master"
+    else
+        branch="open-release/${OPENEDX_RELEASE}"
+    fi
     for repo in "${repos_to_checkout[@]}"
     do
         # Use Bash's regex match operator to capture the name of the repo.
         # Results of the match are saved to an array called $BASH_REMATCH.
         [[ $repo =~ $name_pattern ]]
-        name="${BASH_REMATCH[2]}"
+        name="${BASH_REMATCH[1]}"
 
         # If a directory exists and it is nonempty, assume the repo has been cloned.
-        cd "${DEVSTACK_WORKSPACE}"  # Appsembler: Just in case `customer_specific` had an error.
-        if [ "$name" != "edx-theme-customers" -a -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
-            echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
+        if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
             cd $name
-            _appsembler_checkout_and_update_branch $name
+            echo "Checking out branch $branch of $name"
+            git pull
+            git checkout "$branch"
             cd ..
-        elif [ "$name" == "edx-theme-customers" -a -d "edx-theme-codebase/customer_specific/.git" ]; then
-            echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
-            cd edx-theme-codebase/customer_specific
-            _appsembler_checkout_and_update_branch $name
-            cd ../..
         fi
     done
 }
@@ -80,42 +78,25 @@ _clone ()
 {
     # for repo in ${repos[*]}
     repos_to_clone=("$@")
+
     for repo in "${repos_to_clone[@]}"
     do
         # Use Bash's regex match operator to capture the name of the repo.
         # Results of the match are saved to an array called $BASH_REMATCH.
         [[ $repo =~ $name_pattern ]]
-        name="${BASH_REMATCH[2]}"
+        name="${BASH_REMATCH[1]}"
 
-        # If a directory exists and it is nonempty, assume the repo has been checked out
-        # and only make sure it's on the required branch
-
-        cd "${DEVSTACK_WORKSPACE}"  # Appsembler: Just in case `customer_specific` had an error.
-
-        if [ "$name" != "edx-theme-customers" -a -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
-            printf "The [%s] repo is already checked out. Checking for updates.\n" $name
-            cd ${DEVSTACK_WORKSPACE}/${name}
-            _appsembler_checkout_and_update_branch $name
-            cd ..
-        elif [ "$name" == "edx-theme-customers" -a -d "edx-theme-codebase/customer_specific/.git" ]; then
-            cd "${DEVSTACK_WORKSPACE}/edx-theme-codebase/customer_specific"
-            _appsembler_checkout_and_update_branch $name
-            cd ../..
+        # If a directory exists and it is nonempty, assume the repo has been checked out.
+        if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
+            printf "The [%s] repo is already checked out. Continuing.\n" $name
         else
-            if [ "$name" == "edx-platform" ]; then
-                git clone -b ${APPSEMBLER_EDX_PLATFORM_BRANCH} -c core.symlinks=true ${repo}
-            elif [ "$name" == "edx-theme-codebase" ]; then
-                git clone -b ${THEME_CODEBASE_BRANCH} -c core.symlinks=true ${repo}
-            elif [ "$name" == "edx-theme-customers" ]; then
-                cd edx-theme-codebase
-                sudo rm -rf customer_specific
-                git clone -b ${THEME_CUSTOMERS_BRANCH} -c core.symlinks=true ${repo} customer_specific
+            if [ "${SHALLOW_CLONE}" == "1" ]; then
+                git clone --depth=1 $repo
             else
-                if [ "${SHALLOW_CLONE}" == "1" ]; then
-                    git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 ${repo}
-                else
-                    git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true ${repo}
-                fi
+                git clone $repo
+            fi
+            if [ -n "${OPENEDX_RELEASE}" ]; then
+                git checkout open-release/${OPENEDX_RELEASE}
             fi
         fi
     done
@@ -131,23 +112,6 @@ _checkout_and_update_branch ()
     else
         git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
         git checkout ${OPENEDX_GIT_BRANCH}
-    fi
-}
-
-# our version to handle the fact that edx-platform needs
-# a different branch than `master`
-_appsembler_checkout_and_update_branch ()
-{
-    repo="$1"
-    if [ "${repo}" == "edx-platform" ]; then
-        OPENEDX_GIT_BRANCH="${APPSEMBLER_EDX_PLATFORM_BRANCH}" _checkout_and_update_branch
-    elif [ "${repo}" == "edx-theme-codebase" ]; then
-        OPENEDX_GIT_BRANCH="${THEME_CODEBASE_BRANCH}" _checkout_and_update_branch
-    elif [ "${repo}" == "edx-theme-customers" ]; then
-        OPENEDX_GIT_BRANCH="${THEME_CUSTOMERS_BRANCH}" _checkout_and_update_branch
-    else
-        # default to the old behavior
-        _checkout_and_update_branch
     fi
 }
 
