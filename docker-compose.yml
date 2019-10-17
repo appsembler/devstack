@@ -209,21 +209,11 @@ services:
     ports:
       - "44567:4567"
 
-  postgres:
-    image: postgres:9.4
-    container_name: tahoe.devstack.postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - ${TAHOE_POSTGRES_PORT-5432}:5432
-
   redis:
-    image: redis:3.0
-    container_name: tahoe.devstack.redis
-    ports:
-      - ${TAHOE_REDIS_PORT:-6379}:6379
-    volumes:
-      - redis_data:/data
+    container_name: edx.devstack.redis
+    hostname: redis.devstack.edx
+    image: redis:2.8
+    command: redis-server --requirepass password
 
   devpi:
     container_name: edx.devstack.devpi

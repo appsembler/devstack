@@ -38,58 +38,15 @@ Tahoe is all about subdomains, so please add the following entries to your ``/et
     127.0.0.1 green.localhost
 
 
-Using Tahoe and AMC
+Using the platform
 -------------------
 
 The project is now available on the following URLs:
 
-- **AMC:** http://localhost:19000/
 - **Studio:** http://localhost:18010/
-    - This will not work until you finish section setting up your env as shown in `But, But, But Where's My Site? <https://github.com/appsembler/devstack#but-but-but-wheres-my-site>`_    
-    - If AMC says it's http://studio.localhost:18000 that's a bug, just use the former URL.
 - **LMS:** http://red.localhost:18000/
-    - This will not work until you finish section setting up your env as shown in `But, But, But Where's My Site? <https://github.com/appsembler/devstack#but-but-but-wheres-my-site>`_    
-    - You can use any other subdomain you choose except for http://localhost:18000 since that's reserved for other use.
 
-Superuser passwords are:
-
-- **AMC:** ``amc`` with email ``amc@example.com`` and password ``amc``.
-- **Studio and LMS superuser:** ``edx`` with email ``edx@example.com`` and password ``edx``.
-
-But, But, But Where's My Site?
-------------------------------
-
-`Until we automate that <https://trello.com/c/wS5rTBFp>`_ you have to create the site manually. It's not that hard:
-
-- Go to http://localhost:19000/signup-wizard/0
-- Follow the steps setting the site name to ``red`` so it matches the earlier ``/etc/hosts`` entries.
-- In the terminal run ``$ make logs`` scroll up to activate your email
-- This is a shortcut if you don't like scrolling: ``$ make logs | grep devstack.amc | grep -o 'http:.*accounts/confirm-email/[^/]*/' | tail -n1``
-- Refer to `Theme <https://github.com/appsembler/devstack#theme>`_ section to get your theme ready for your first site.
-- After complete the steps, you should be able to access all of Tahoe and AMC URLs via the user you created.
-
-More Good Devstack Stuff
-------------------------
-
-There's a couple of other shortcuts specific for Tahoe, run ``$ make help | grep -e tahoe -e amc``
-for a full list or checkout the ``tahoe.mk`` file to see the source code.
-Currently the commands looks like this:
-
-.. code::
-
-    $ make help | grep -e tahoe -e amc
-      tahoe.up                  Run the lightweight devstack with proper Tahoe settings, use instead of `$ make dev.up`
-      tahoe.up.full             Run the full devstack with proper Tahoe settings, use instead of `$ make dev.up`
-      amc.provision             Initializes the AMC
-      tahoe.chown               Fix annoying docker permission issues
-      tahoe.envs._delete        Remove settings, in prep for resetting it
-      tahoe.exec.edxapp         Execute a command in both LMS and Studio (edxapp containers)
-      tahoe.exec.single         Execute a command inside a devstack docker container
-      tahoe.provision           Make the devstack more Tahoe'ish
-      tahoe.restart             Restarts both of LMS and Studio python processes while keeping the same container
-
-
-If something goes wrong, check out the rest of this README for additional details.
+**Studio and LMS superuser** passwords are ``edx`` with email ``edx@example.com`` and password ``edx``.
 
 Environment Files
 -----------------
