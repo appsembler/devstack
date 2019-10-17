@@ -20,7 +20,6 @@ fi
 OPENEDX_GIT_BRANCH=open-release/hawthorn.master
 
 APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/hawthorn/master"
-THEME_CODEBASE_BRANCH="hawthorn/master"
 
 repos=(
     "https://github.com/edx/course-discovery.git"
@@ -29,7 +28,6 @@ repos=(
     "https://github.com/edx/ecommerce.git"
     "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/edx/edx-notes-api.git"
-    "git@github.com:appsembler/edx-theme-codebase.git"
     "git@github.com:appsembler/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
