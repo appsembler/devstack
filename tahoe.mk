@@ -28,6 +28,7 @@ tahoe.restart:  ## Restarts both of LMS and Studio python processes while keepin
 	make lms-restart
 	make studio-restart
 	make amc-restart
+	make credentials-restart
 
 amc.provision:  ## Initializes the AMC
 	docker exec -it tahoe.devstack.amc python manage.py migrate

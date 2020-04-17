@@ -219,6 +219,9 @@ xqueue_consumer-shell: ## Run a shell on the XQueue consumer container
 xqueue_consumer-restart: ## Kill the XQueue development server. The watcher process will restart it.
 	docker exec -t edx.devstack.xqueue_consumer bash -c 'kill $$(ps aux | grep "manage.py run_consumer" | egrep -v "while|grep" | awk "{print \$$2}")'
 
+credentials-restart:
+	docker exec -t edx.devstack.credentials bash -c 'kill $$(ps aux | grep "manage.py runserver" | egrep -v "while|grep" | awk "{print \$$2}")'
+
 %-static: ## Rebuild static assets for the specified service container
 	docker exec -t edx.devstack.$* bash -c 'source /edx/app/$*/$*_env && cd /edx/app/$*/$*/ && npm install && make static'
 
@@ -230,8 +233,8 @@ studio-static: ## Rebuild static assets for the Studio container
 
 ## Appsembler: Remove `credentials-static`, `discovery-static` and `ecommerce-static`
 ##             because they're problematic and not needed for us
-credentials-static:
-	@echo 'credentials-static: Disabled at Appsembler'
+# credentials-static:
+# 	@echo 'credentials-static: Disabled at Appsembler'
 
 discovery-static:
 	@echo 'discovery-static: Disabled at Appsembler'
