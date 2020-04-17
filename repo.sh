@@ -23,17 +23,19 @@ APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/tahoe/master"
 AMC_BRANCH="develop"
 THEME_CODEBASE_BRANCH="hawthorn/master"
 THEME_CUSTOMERS_BRANCH="hawthorn/tahoe"
+APPSEMBLER_CREDENTIALS_BRANCH="appsembler/feature/badges"
+
 
 repos=(
     "https://github.com/edx/course-discovery.git"
-    "https://github.com/appsembler/credentials.git"
+    "git@github.com:appsembler/credentials.git"
     "https://github.com/edx/cs_comments_service.git"
     "https://github.com/edx/ecommerce.git"
     "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/edx/edx-notes-api.git"
-    # "git@github.com:appsembler/amc.git"
-    # "git@github.com:appsembler/edx-theme-codebase.git"
-    # "git@github.com:appsembler/edx-theme-customers.git"
+    "git@github.com:appsembler/amc.git"
+    "git@github.com:appsembler/edx-theme-codebase.git"
+    "git@github.com:appsembler/edx-theme-customers.git"
     "git@github.com:appsembler/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
@@ -114,6 +116,8 @@ _clone ()
                 cd edx-theme-codebase
                 sudo rm -rf customer_specific
                 git clone -b ${THEME_CUSTOMERS_BRANCH} -c core.symlinks=true ${repo} customer_specific
+            elif [ "$name" == "credentials" ]; then
+                git clone -b ${APPSEMBLER_CREDENTIALS_BRANCH} -c core.symlinks=true ${repo}
             else
                 if [ "${SHALLOW_CLONE}" == "1" ]; then
                     git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 ${repo}
