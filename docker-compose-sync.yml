@@ -7,9 +7,9 @@ services:
   discovery:
     volumes:
       - discovery-sync:/edx/app/discovery/discovery:nocopy
-  ecommerce:
-    volumes:
-      - ecommerce-sync:/edx/app/ecommerce/ecommerce:nocopy
+  # ecommerce:
+  #   volumes:
+  #     - ecommerce-sync:/edx/app/ecommerce/ecommerce:nocopy
   lms:
     volumes:
       - edxapp-sync:/edx/app/edxapp/edx-platform:nocopy
@@ -25,8 +25,8 @@ volumes:
     external: true
   discovery-sync:
     external: true
-  ecommerce-sync:
-    external: true
+  # ecommerce-sync:
+  #   external: true
   edxapp-sync:
     external: true
   forum-sync:

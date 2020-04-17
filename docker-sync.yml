@@ -15,10 +15,10 @@ syncs:
     src: '../course-discovery/'
     sync_excludes: [ '.git', '.idea' ]
 
-  ecommerce-sync:
-    host_disk_mount_mode: 'cached'
-    src: '../ecommerce/'
-    sync_excludes: [ '.git', '.idea' ]
+  # ecommerce-sync:
+  #   host_disk_mount_mode: 'cached'
+  #   src: '../ecommerce/'
+  #   sync_excludes: [ '.git', '.idea' ]
 
   edxapp-sync:
     host_disk_mount_mode: 'cached'
