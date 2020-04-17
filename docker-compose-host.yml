@@ -7,7 +7,7 @@ services:
       - credentials_node_modules:/edx/app/credentials/credentials/node_modules
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
   discovery:
-      volumes:
+    volumes:
       - ${DEVSTACK_WORKSPACE}/course-discovery:/edx/app/discovery/discovery:${DEVSTACK_CACHE:-cached}
       - discovery_node_modules:/edx/app/discovery/discovery/node_modules
       - ${DEVSTACK_WORKSPACE}/src:/edx/src:${DEVSTACK_CACHE:-cached}
