@@ -142,7 +142,7 @@ _checkout_and_update_branch ()
     fi
 }
 
-# our version to handle the fact that both edx-platform and AMC need
+# our version to handle the fact that edx-platform, AMC, and credentials need
 # different branches, not `master`
 _appsembler_checkout_and_update_branch ()
 {
@@ -155,6 +155,8 @@ _appsembler_checkout_and_update_branch ()
         OPENEDX_GIT_BRANCH="${THEME_CODEBASE_BRANCH}" _checkout_and_update_branch
     elif [ "${repo}" == "edx-theme-customers" ]; then
         OPENEDX_GIT_BRANCH="${THEME_CUSTOMERS_BRANCH}" _checkout_and_update_branch
+    elif [ "${repo}" == "credentials" ]; then
+        OPENEDX_GIT_BRANCH="${APPSEMBLER_CREDENTIALS_BRANCH}" _checkout_and_update_branch        
     else
         # default to the old behavior
         _checkout_and_update_branch
