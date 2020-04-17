@@ -26,7 +26,7 @@ THEME_CUSTOMERS_BRANCH="hawthorn/tahoe"
 
 repos=(
     "https://github.com/edx/course-discovery.git"
-    "https://github.com/edx/credentials.git"
+    "https://github.com/appsembler/credentials.git"
     "https://github.com/edx/cs_comments_service.git"
     "https://github.com/edx/ecommerce.git"
     "https://github.com/edx/edx-e2e-tests.git"
