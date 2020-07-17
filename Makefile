@@ -61,7 +61,7 @@ dev.provision.run: ## Provision all services with local mounted directories
 dev.provision: | check-memory dev.clone dev.provision.run ## Provision dev environment with all services stopped
 	make dev.up
 	make tahoe.provision
-	make amc.provision
+# 	make amc.provision
 	make stop
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue
