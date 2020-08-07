@@ -19,8 +19,8 @@ fi
 
 OPENEDX_GIT_BRANCH=open-release/hawthorn.master
 
-# APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/tahoe/develop"
-APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/hawthorn/develop"
+APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/tahoe/develop"
+#APPSEMBLER_EDX_PLATFORM_BRANCH="appsembler/hawthorn/develop"
 AMC_BRANCH="develop"
 THEME_CODEBASE_BRANCH="hawthorn/master"
 THEME_CUSTOMERS_BRANCH="hawthorn/dhis2"
