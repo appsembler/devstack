@@ -35,7 +35,7 @@ amc.provision:  ## Initializes the AMC
 	make COMMAND='python manage.py lms create_devstack_site dhis2 --settings=devstack_docker' SERVICE='lms' tahoe.exec.single
 # 	docker exec -it tahoe.devstack.amc python manage.py create_devstack_superuser
 # 	docker exec -it tahoe.devstack.amc python manage.py create_devstack_site red
-docker exec -it tahoe.devstack.amc python manage.py create_devstack_site dhis2
+	docker exec -it tahoe.devstack.amc python manage.py create_devstack_site dhis2
 	docker exec -it tahoe.devstack.amc-frontend npm install
 
 amc-shell:
