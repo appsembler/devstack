@@ -254,7 +254,6 @@ services:
       OAUTHLIB_INSECURE_TRANSPORT: "true"
       APPSEMBLER_EDX_API_KEY: test
       APPSEMBLER_SECRET_KEY: secret_key
-      HOST: edx.devstack.amc
     image: appsembler/amc-backend-base
     ports:
       - "29000:19000"  # Discourage the use of the Python backend, but make it available for debugging purposes
@@ -268,7 +267,7 @@ services:
     environment:
       LMS_BASE: "localhost:18000"
       PORT: 13000
-      HOST: ${HOST:-localhost}
+      HOST: "tahoe.devstack.amc"
       BACKEND_HOST: "http://tahoe.devstack.amc:19000"
     depends_on:
       - amc
