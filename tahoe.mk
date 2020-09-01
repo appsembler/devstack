@@ -56,3 +56,6 @@ endif
 amc-restart:
 	docker exec -t tahoe.devstack.amc bash -c 'killall5'
 	docker exec -t tahoe.devstack.amc-frontend bash -c 'killall5'
+
+amc-attach:
+	docker attach tahoe.devstack.amc
