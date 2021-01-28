@@ -19,7 +19,7 @@ fi
 
 OPENEDX_GIT_BRANCH=open-release/juniper.3
 
-APPSEMBLER_EDX_PLATFORM_BRANCH="main"
+APPSEMBLER_EDX_PLATFORM_BRANCH="jazzar/theme-hack"
 AMC_BRANCH="develop"
 THEME_CODEBASE_BRANCH="juniper/main"
 THEME_CUSTOMERS_BRANCH="juniper/tahoe"
