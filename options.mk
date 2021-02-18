@@ -53,7 +53,7 @@ DEFAULT_SERVICES ?= lms+studio+credentials+forum+amc+amc-frontend
 # Services must provide a Makefile target named: $(service)-update-db
 # Note: This list should contain _all_ db-backed services, even if not
 # configured to run; the list will be filtered later against $(DEFAULT_SERVICES)
-DB_SERVICES ?= credentials discovery ecommerce lms registrar studio
+DB_SERVICES ?= credentials discovery ecommerce lms registrar studio amc
 
 # List of Makefile targets to run database migrations, in the form $(service)-update-db
 # Services will only have their migrations added here
