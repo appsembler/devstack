@@ -18,12 +18,34 @@ Disclaimer
 
 .. code::
 
-    $ mkdir -p ~/work/tahoe-hawthorn  # It needs its own new directory
-    $ cd ~/work/tahoe-hawthorn
+    $ mkdir -p ~/work/tahoe-juniper  # It needs its own new directory
+    $ cd ~/work/tahoe-juniper
     $ git clone https://github.com/appsembler/devstack.git
-    $ cd devstack  # Now the `devstack` repo should be on the `hawthorn` branch
+    $ cd devstack  # Now the `devstack` repo should be on the `juniper` branch
+    $ git checkout juniper
+
+Create an ``options.local.mk`` file in your local ``devstack`` directory:
+
+.. code::
+
+  OPENEDX_RELEASE=juniper.master
+  COMPOSE_PROJECT_NAME=junstack
+  DEFAULT_SERVICES=lms+studio+forum+amc+amc-frontend
+  DB_SERVICES=lms studio amc
+
+Now provision your devstack:
+
+.. code::
+
     $ make dev.provision
+
+If all goes well, you can then start the devstack:
+
+.. code::
+
     $ make dev.up
+
+One known issue is that theming does not get installed with the ``make dev.provision`` step. See the "Theme" section below for troubleshooting.
 
 Add /etc/hosts Entries
 ----------------------
@@ -134,6 +156,12 @@ For example to make Course Access Groups installed on every devstack startup:
 Theme
 -----
 Tahoe themes are copied and available in ``edx-codebase-theme`` directory near the ``edx-platform``. Refer to `edx-theme-codebase#How to use on Devstack <https://github.com/appsembler/edx-theme-codebase#how-to-use-on-devstack>`_ for more info on setting up your custom theme.
+
+Troubleshooting Theme Installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Refer to instructions in the `How to use on Devstack <https://github.com/appsembler/edx-theme-codebase#how-to-use-on-devstack>`_ section of the ``edx-theme-codebase`` Github repository.
+
 
 How to Solve a Devstack Problem
 -------------------------------
@@ -640,8 +668,8 @@ NOTES:
 1. edxapp and IDAs use the ``latest`` tag for configuration changes which have been merged to master branch of
    their repository and ``edx/configuration``.
 2. Images for a named Open edX release are built from the corresponding branch
-   of each repository and tagged appropriately, for example ``hawthorn.master``
-   or ``hawthorn.rc1``.
+   of each repository and tagged appropriately, for example ``juniper.master``
+   or ``juniper.rc1``.
 3. The elasticsearch used in devstack is built using elasticsearch-devstack/Dockerfile and the ``devstack`` tag.
 
 BUILD COMMANDS:
@@ -673,18 +701,7 @@ How do I run the images for a named Open edX release?
 -----------------------------------------------------
 
 #. Set the ``OPENEDX_RELEASE`` environment variable to the appropriate image
-   tag; "hawthorn.master", "zebrawood.rc1", etc.  Note that unlike a server
-   install, ``OPENEDX_RELEASE`` should not have the "open-release/" prefix.
-#. Check out the appropriate branch in devstack, e.g. ``git checkout open-release/ironwood.master``
-#. Use ``make dev.checkout`` to check out the correct branch in the local
-   checkout of each service repository once you've set the ``OPENEDX_RELEASE``
-   environment variable above.
-#. ``make dev.pull`` to get the correct images.
-
-All ``make`` target and ``docker-compose`` calls should now use the correct
-images until you change or unset ``OPENEDX_RELEASE`` again.  To work on the
-master branches and ``latest`` images, unset ``OPENEDX_RELEASE`` or set it to
-an empty string.
+   tag; "juniperstring.
 
 How do I run multiple named Open edX releases on same machine?
 --------------------------------------------------------------
