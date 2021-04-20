@@ -21,6 +21,7 @@ OPENEDX_GIT_BRANCH=open-release/juniper.3
 
 APPSEMBLER_EDX_PLATFORM_BRANCH="main"
 AMC_BRANCH="develop"
+PLATFORM_THEMES_DIR="${DEVSTACK_WORKSPACE}/edx-themes/edx-platform"
 THEME_CODEBASE_BRANCH="juniper/main"
 THEME_CUSTOMERS_BRANCH="juniper/tahoe"
 
@@ -103,17 +104,24 @@ _checkout ()
             echo "Checking out branch of $name"
             cd "$name"
             _appsembler_checkout_and_update_branch "$name"
-            cd ..
+            cd ${DEVSTACK_WORKSPACE}
         elif [ "$name" == "edxapp-envs" ] && [ -d "src/edxapp-envs/.git" ]; then
             echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
             cd src/edxapp-envs
             _appsembler_checkout_and_update_branch "$name"
-            cd ../..
-        elif [ "$name" == "edx-theme-customers" ] && [ -d "edx-theme-codebase/customer_specific/.git" ]; then
-            echo "Checking out branch ${OPENEDX_GIT_BRANCH} of $name"
-            cd edx-theme-codebase/customer_specific
+            cd ${DEVSTACK_WORKSPACE}
+        elif [ "$name" == "edx-theme-codebase" ] && [ -d "edx-themes/edx-platform/edx-theme-codebase/.git" ]; then
+            echo "Checking out branch of $name"
+            mkdir -p "${DEVSTACK_WORKSPACE}/edx-themes/edx-platform"
+            cd edx-themes/edx-platform/edx-theme-codebase
             _appsembler_checkout_and_update_branch "$name"
-            cd ../..
+            cd ${DEVSTACK_WORKSPACE}
+        elif [ "$name" == "edx-theme-customers" ] && [ -d "edx-themes/edx-platform/edx-theme-codebase/customer_specific/.git" ]; then
+            echo "Checking out branch of $name"
+            mkdir -p "${DEVSTACK_WORKSPACE}/edx-themes/edx-platform"
+            cd edx-themes/edx-platform/edx-theme-codebase/customer_specific
+            _appsembler_checkout_and_update_branch "$name"
+            cd ${DEVSTACK_WORKSPACE}
         fi
     done
 }
@@ -149,23 +157,28 @@ _clone ()
             printf "The [%s] repo is already checked out. Checking for updates.\n" "$name"
             cd "${DEVSTACK_WORKSPACE}/edx-theme-codebase/customer_specific"
             _appsembler_checkout_and_update_branch $name
-            cd ../..
+            cd "${DEVSTACK_WORKSPACE}"
         elif [ "$name" == "edxapp-envs" ] && [ -d "src/edxapp-envs/.git" ]; then
             printf "The [%s] repo is already checked out. Checking for updates.\n" "$name"
             cd "${DEVSTACK_WORKSPACE}/src/edxapp-envs"
             _appsembler_checkout_and_update_branch "$name"
-            cd ../..
+            cd "${DEVSTACK_WORKSPACE}"
         else
             if [ "$name" == "edx-platform" ]; then
                 git clone -b ${APPSEMBLER_EDX_PLATFORM_BRANCH} -c core.symlinks=true ${repo}
             elif [ "$name" == "amc" ]; then
                 git clone -b ${AMC_BRANCH} -c core.symlinks=true ${repo}
             elif [ "$name" == "edx-theme-codebase" ]; then
+                mkdir -p "${PLATFORM_THEMES_DIR}"
+                cd "${PLATFORM_THEMES_DIR}"
+                sudo rm -rf edx-theme-codebase  # Clean up stale/broken repo
                 git clone -b ${THEME_CODEBASE_BRANCH} -c core.symlinks=true ${repo}
+                cd "${DEVSTACK_WORKSPACE}"
             elif [ "$name" == "edx-theme-customers" ]; then
-                cd edx-theme-codebase
-                sudo rm -rf customer_specific
+                cd "${DEVSTACK_WORKSPACE}/edx-theme-codebase"
+                sudo rm -rf customer_specific  # Clean up stale/broken repo
                 git clone -b ${THEME_CUSTOMERS_BRANCH} -c core.symlinks=true ${repo} customer_specific
+                cd "${DEVSTACK_WORKSPACE}"
             elif [ "$name" == "edxapp-envs" ]; then
                 sudo rm -rf "${DEVSTACK_WORKSPACE}/src/edxapp-envs"
                 git clone -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true ${repo} "${DEVSTACK_WORKSPACE}/src/edxapp-envs"
